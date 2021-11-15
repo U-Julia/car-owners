@@ -1,0 +1,34 @@
+.form-control-owner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 250px;
+  align-items: center;
+  margin: 10px;
+}
+
+.p-field {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  margin-left: 0;
+}
+
+.cars {
+  margin-bottom: 10px;
+  width: 800px;
+}
+
+.btn-add-cars {
+  margin-bottom: 10px;
+}
+
+.btns-save-back {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-save-cars {
+  margin-right: 5px;
+}
+

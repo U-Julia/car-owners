@@ -1,0 +1,186 @@
+<div [formGroup]="form">
+  <div class="form-control-owner">
+    <label for="lastName">Фамилия</label>
+    <div class="p-field">
+      <input type="text"
+             pInputText
+             class="p-inputtext-sm"
+             formControlName="lastName"
+             id="lastName"/>
+      <small *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+             id="lastName" class="p-error">
+        <ng-container *ngIf="lastName?.errors?.required">Поле обязательно</ng-container>
+      </small>
+    </div>
+  </div>
+  <div class="form-control-owner">
+    <label for="firstName">Имя</label>
+    <div class="p-field">
+      <input type="text"
+             pInputText class="p-inputtext-sm"
+             formControlName="firstName"
+             id="firstName"/>
+      <small *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+             id="firstName" class="p-error">
+        <ng-container *ngIf="firstName?.errors?.required">Поле обязательно</ng-container>
+      </small>
+    </div>
+  </div>
+  <div class="form-control-owner">
+    <label for="middleName">Отчество</label>
+    <div class="p-field">
+      <input type="text"
+             pInputText class="p-inputtext-sm"
+             formControlName="middleName"
+             id="middleName"/>
+      <small *ngIf="middleName?.invalid && (middleName?.dirty || middleName?.touched)"
+             id="middleName"
+             class="p-error">
+        <ng-container *ngIf="middleName?.errors?.required">Поле обязательно</ng-container>
+      </small>
+    </div>
+  </div>
+  <h2>Автомобили</h2>
+  <div formArrayName="cars">
+    <table class="cars">
+      <tr *ngIf="cars.length">
+        <td class="column-size">Номер</td>
+        <td class="column-size">Марка</td>
+        <td class="column-size">Модель</td>
+        <td class="column-size">Год</td>
+        <td></td>
+      </tr>
+      <ng-container *ngFor="let car of cars.controls; let i = index">
+        <tr [formGroupName]="i">
+          <td>
+            <div class="p-field">
+              <input type="text"
+                     aria-describedby="username1-help"
+                     pInputText
+                     class="form-control-car"
+                     formControlName="stateNumber"
+                     id="stateNumber"
+                     (input)="checkStateNumber(cars.controls[i].get('stateNumber'))">
+              <small
+                *ngIf="cars.controls[i].get('stateNumber')?.invalid &&
+                 (cars.controls[i].get('stateNumber')?.dirty ||
+                 cars.controls[i].get('stateNumber')?.touched)"
+                id="stateNumber"
+                class="p-error">
+                <ng-container *ngIf="cars.controls[i].get('stateNumber')?.errors?.required">
+                  Поле обязательно
+                </ng-container>
+                <ng-container *ngIf="cars.controls[i].get('stateNumber')?.errors?.stateNumber">
+                  Неправильный формат номера. Например, AA1111AA
+                </ng-container>
+                <ng-container *ngIf="cars.controls[i].get('stateNumber')?.errors?.exists">
+                  Такой номер уже существует
+                </ng-container>
+              </small>
+            </div>
+          </td>
+          <td>
+            <div class="p-field">
+              <input type="text"
+                     pInputText
+                     class="form-control-car p-inputtext-sm"
+                     formControlName="brand"
+                     id="brand">
+              <small *ngIf="cars.controls[i].get('brand')?.invalid &&
+                (cars.controls[i].get('brand')?.dirty ||
+                cars.controls[i].get('brand')?.touched)"
+                     id="brand"
+                     class="p-error">
+                <ng-container *ngIf="cars.controls[i].get('brand')?.errors?.required">
+                  Поле обязательно
+                </ng-container>
+              </small>
+            </div>
+          </td>
+          <td>
+            <div class="p-field">
+              <input type="text"
+                     pInputText
+                     class="form-control-car p-inputtext-sm"
+                     formControlName="model"
+                     id="model">
+              <small
+                *ngIf="cars.controls[i].get('model')?.invalid &&
+                (cars.controls[i].get('model')?.dirty ||
+                cars.controls[i].get('model')?.touched)"
+                id="model"
+                class="p-error">
+                <ng-container *ngIf="cars.controls[i].get('model')?.errors?.required">
+                  Поле обязательно
+                </ng-container>
+              </small>
+            </div>
+          </td>
+          <td>
+            <div class="p-field">
+              <input type="text"
+                     pInputText
+                     class="form-control-car p-inputtext-sm"
+                     formControlName="year"
+                     id="year">
+              <small
+                *ngIf="cars.controls[i].get('year')?.invalid &&
+                (cars.controls[i].get('year')?.dirty ||
+                cars.controls[i].get('year')?.touched)"
+                id="year"
+                class="p-error">
+                <ng-container *ngIf="cars.controls[i].get('year')?.errors?.required">
+                  Поле обязательно
+                </ng-container>
+                <ng-container
+                  *ngIf="cars.controls[i].get('year')?.errors?.min || cars.controls[i].get('year')?.errors?.max">
+                  от {{minYear}} до {{currentYear}}
+                </ng-container>
+              </small>
+            </div>
+          </td>
+          <td>
+            <button *ngIf="actionType !== ActionType.PREVIEW"
+                    pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    class="p-button-sm p-button-danger"
+                    (click)="deleteCar(i)">
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+</div>
+
+<div class="btn-add-cars">
+  <button *ngIf="actionType !== ActionType.PREVIEW"
+          pButton
+          type="button"
+          label="Добавить автомобиль"
+          icon="pi pi-plus"
+          class="p-button-sm"
+          (click)="addCar()">
+  </button>
+</div>
+<div class="btns-save-back">
+  <div class="btn-save-cars">
+    <button *ngIf="actionType !== ActionType.PREVIEW"
+            pButton
+            type="button"
+            label="Сохранить"
+            icon="pi pi-save"
+            class="p-button-sm"
+            [disabled]="form.invalid"
+            (click)="save()">
+    </button>
+  </div>
+  <button pButton
+          type="button"
+          label="Назад"
+          icon="pi pi-arrow-circle-left"
+          class="p-button-sm p-button-secondary"
+          (click)="back()">
+  </button>
+</div>

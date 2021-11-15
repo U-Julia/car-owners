@@ -1,0 +1,56 @@
+<h3>Владельцы автомобилей</h3>
+<button pButton type="button"
+        label="Добавить"
+        icon="pi pi-plus"
+        class="p-button-sm"
+        (click)="handleRecord(ActionType.CREATE)">
+</button>
+<button pButton type="button"
+        label="Просмотр"
+        icon="pi pi-eye"
+        class="p-button-sm"
+        [disabled]="!selectedRecord"
+        (click)="handleRecord(ActionType.PREVIEW)">
+</button>
+<button pButton
+        type="button"
+        label="Редактировать"
+        icon="pi pi-pencil"
+        class="p-button-sm"
+        [disabled]="!selectedRecord"
+        (click)="handleRecord(ActionType.EDIT)">
+</button>
+<button pButton
+        type="button"
+        label="Удалить"
+        icon="pi pi-trash"
+        class="p-button-sm" [disabled]="!selectedRecord"
+        (click)="handleRecord(ActionType.DELETE)">
+</button>
+<div class="card">
+  <p-table [value]="owners"
+           [resizableColumns]="true"
+           selectionMode="single"
+           [(selection)]="selectedRecord"
+           dataKey="id"
+           responsiveLayout="scroll"
+           styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="column-size" pResizableColumn>Фамилия</th>
+        <th class="column-size" pResizableColumn>Имя</th>
+        <th class="column-size" pResizableColumn>Отчество</th>
+        <th class="column-size" pResizableColumn>Количество автомобилей</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-owner>
+      <tr [pSelectableRow]="owner">
+        <td>{{owner.lastName}}</td>
+        <td>{{owner.firstName}}</td>
+        <td>{{owner.middleName}}</td>
+        <td>{{owner.cars?.length}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-confirmDialog></p-confirmDialog>
